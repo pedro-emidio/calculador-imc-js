@@ -2,8 +2,7 @@ function escopo() {
     const form = document.querySelector('.form')
     const divResultado = document.querySelector('.resultado')
     function recebeEvento(evento) {
-        evento.preventDefault()                     //necessario para que ao cliar no botão de enviar não see atualize a
-        //pagina e sim q ocorra somente o envio dos dados
+        evento.preventDefault()
 
         let peso = form.querySelector('.peso')
         let altura = form.querySelector('.altura')
