@@ -1,32 +1,63 @@
 function escopo() {
     const form = document.querySelector('.form')
-    const divResultado = document.querySelector('.resultado')
-    function recebeEvento(evento) {
-        evento.preventDefault()
 
-        let peso = form.querySelector('.peso')
-        let altura = form.querySelector('.altura')
-        if (isNaN(peso) || isNaN(altura)) {
-            divResultado.innerHTML = 'Peso ou altura invalidos'
+    form.addEventListener('submit', function (e) {
+        e.preventDefault()  // previne o evento de envio
+        const pesoHTML = e.target.querySelector('.peso')
+        const alturaHTML = e.target.querySelector('.altura')
+
+        const peso = Number(pesoHTML.value)
+        const altura = Number(alturaHTML.value)
+
+        if (!peso) {
+            setResultado('Peso inválido', false)
+            return
         }
-
-        let imc = parseFloat(peso.value) / parseFloat(altura.value) ** 2
-
-        if (imc < 18.5) {
-            divResultado.innerHTML = `O seu IMC é igual a ${imc.toFixed(1)} e você está abaixo do peso!`
-        } else if (imc >= 18.5 && imc <= 24.9) {
-            divResultado.innerHTML = `O seu IMC é igual a ${imc.toFixed(1)} e você está no peso ideal!`
-        } else if (imc >= 25 && imc <= 29.9) {
-            divResultado.innerHTML = `O seu IMC é igual a ${imc.toFixed(1)} e você está com sobre peso!`
-        } else if (imc >= 30 && imc <= 34.9) {
-            divResultado.innerHTML = `O seu IMC é igual a ${imc.toFixed(1)} e você está com obesidade grau 1!`
-        } else if (imc >= 35 && imc <= 39.9) {
-            divResultado.innerHTML = `O seu IMC é igual a ${imc.toFixed(1)} e você está com obesidade grau 2!`
-        } else if (imc >= 40) {
-            divResultado.innerHTML = `O seu IMC é igual a ${imc.toFixed(1)} e você está com obesidade grau 3!`
+        if (!altura) {
+            setResultado('Altura inválido', false)
+            return
         }
+        const imc = calcIMC(peso, altura)
+        const nivelImc = calcNivelIMC(imc)
+        const msg = `O seu IMC é igual a ${imc} e você está ${nivelImc}.`
+        setResultado(msg, true)
+    })
+
+
+    function calcNivelIMC(imc) {
+        const nivel = ['abaixo do peso!', 'peso ideal!', 'sobre peso!',
+            'obesidade grau 1!', 'obesidade grau 2!', 'obesidade grau 3!']
+        if (imc >= 39.9) return nivel[5]
+        if (imc >= 34.9) return nivel[4]
+        if (imc >= 29.9) return nivel[3]
+        if (imc >= 24.9) return nivel[2]
+        if (imc >= 18.5) return nivel[1]
+        if (imc < 18.5) return nivel[0]
     }
 
-    form.addEventListener('submit', recebeEvento)
+
+    function calcIMC(peso, altura) {
+        const imc = peso / altura ** 2
+        return imc.toFixed(2)
+    }
+
+    function criaP() {
+        const p = document.createElement('p')
+        return p
+    }
+
+
+    function setResultado(msg, isValid) {
+        const divResultado = document.querySelector('.resultado')
+        divResultado.innerHTML = ''
+        const p = criaP()
+        if (isValid) {
+            p.classList.add('paragrafo-res')
+        } else {
+            p.classList.add('bad')
+        }
+        p.innerHTML = msg
+        divResultado.appendChild(p)
+    }
 }
 escopo()

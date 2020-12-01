@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap');
 :root {
-  --primary-color: rgb(16, 197, 238);
+  --primary-color: rgb(81, 211, 240);
   --primary-color-darker: rgb(9, 48, 56);
 }
 
@@ -55,4 +55,13 @@ form button {
 
 form button:hover {
   background: var(--primary-color-darker);
+}
+
+.paragrafo-res{
+  background: rgb(161, 235, 132);
+  padding: 10px 20px;
+}
+.bad{
+  background: rgb(228, 91, 91);
+  padding: 10px 20px;
 }
